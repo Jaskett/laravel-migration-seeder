@@ -8,6 +8,9 @@ use Illuminate\Database\Seeder;
 // Models
 use App\Models\Train;
 
+// Helpers
+use Faker\Generator as Faker;
+
 class TrainsTableSeeder extends Seeder
 {
     /**
@@ -15,18 +18,21 @@ class TrainsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
         $newTrain = new Train;
-        $newTrain->company = ?;
-        $newTrain->departure_station = ?;
-        $newTrain->arrival_station = ?;
-        $newTrain->departure_time = ?;
-        $newTrain->arrival_time = ?;
-        $newTrain->train_code = ?;
-        $newTrain->carriage_number = ?;
-        $newTrain->on_time = ?;
-        $newTrain->is_canceled = ?;
+        $newTrain->company = $faker->company();
+        $newTrain->departure_station = $faker->city();
+        $newTrain->arrival_station = $faker->city();
+        while($newTrain->departure_station == $newTrain->arrival_station) {
+            $newTrain->arrival_station = $faker->city();
+        }
+        $newTrain->departure_time = $faker->dateTimeBetween('-1 week', '+1 week');
+        $newTrain->arrival_time = $faker->dateTimeBetween('+1 week', '+2 weeks');
+        $newTrain->train_code = strtoupper($faker->bothify('??###'));
+        $newTrain->carriage_number = $faker->numberBetween(2, 15);
+        $newTrain->on_time = rand(0, 1);
+        $newTrain->is_canceled = rand(0, 1);
         $newTrain->save();
     }
 }
