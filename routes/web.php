@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Controller
+use App\Http\Controllers\Admin\TrainController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +16,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [TrainController::class, 'index']);
